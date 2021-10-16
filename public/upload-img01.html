@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload img</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+   
+</head>
+<style>
+    .container{
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="container">
+        <form name="fake_form" onsubmit="return false">
+            <img src="" alt="" width="300px" id="img01">
+            <!-- 設定點擊按鈕時=點到選擇檔案的btn(但設定此按鈕隱藏) -->
+            <!-- 按鈕type要設定button沒有給的話會是submit -->
+            <button type="button" class="btn btn-success" onclick="avatar.click()">上傳大頭貼</button>
+    
+            <div class="mb-3">
+                <label for="my_img" class="form-label">image</label>
+                <input type="text" class="form-control" id="my_img" name="my_img">
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    
+    
+        <form name="form1" style="display: none;">
+            <input type="file" id="avatar" name="avatar">
+        </form>
+    </div>
+<script>
+     const avatar = document.querySelector('#avatar');
+
+    avatar.addEventListener('change', async event=>{
+        const fd = new FormData(document.form1); //隱藏的表單(選擇檔案按鈕)
+        const res = await fetch('/try-upload2', {
+            method: 'POST',
+            body: fd
+        });
+        const obj = await res.json();
+        document.querySelector('#img01').src = '/img/' + obj.filename;
+        document.fake_form.my_img.value = obj.filename;
+    });
+</script>
+
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+<input type="text">
+
+<button onclick="sendAjax()">send ajax</button>
+
+<div id="info"></div>
+
+<script>
+    let data;
+    function sendAjax(){
+        console.log('開始');
+
+        const xhr = new XMLHttpRequest;
+        xhr.onload = function(){
+            info.innerText = xhr.responseText;
+            data = JSON.parse(xhr.responseText);
+            console.log(data);
+        };
+
+        xhr.open('GET', '/pending', ); // 第三個參數設定false= 同步,如果沒有回傳資料 會暫停其他的程式
+        xhr.send();
+
+        console.log('結束');
+    }
+</script>
+</body>
+</html>

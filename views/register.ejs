@@ -1,0 +1,111 @@
+<%- include('parts/html-head.ejs') %>
+<%- include('parts/navbar.ejs') %> 
+<style>
+    #reminder{
+        color: red;
+        font-size: 10px;
+        display: none;
+        /* display: block; */
+
+    }
+
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">會員註冊</h5>
+                  <form name="form1" onsubmit="checkForm(); return false;">
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">email(帳號名)</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <p id="reminder">帳號已被使用過</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密碼</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">暱稱</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">mobile</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthday" class="form-label">birthday</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday">
+                    </div>
+                    
+                    <button id="btn" type="submit" class="btn btn-primary">註冊</button>
+                </form>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/script.ejs') %> 
+<script>
+
+    const email = document.querySelector('#email');
+    const reminder = document.querySelector('#reminder')
+
+    const keyHandler = event=>{
+        console.log(event);
+        // 檢查格式
+
+        const usp = new URLSearchParams();//用這個方式才會做跳脫
+        usp.set('email',email.value.toLowerCase());
+
+        // 用這個方式送= ?+usp 是get 的變數?
+        fetch('/account-check?'+usp).then(r=>r.json()).then(data=>{
+            // 回傳login.js 裡面的used值
+            if(data.used){
+                // email已被使用
+                reminder.style.display = "block"
+                email.style.border = '2px solid red';
+                btn.disabled = true;
+            }else{
+                email.style.border = '1px solid #CCCCCC';
+            }
+        })
+    }
+    
+    // 鍵盤事件
+    // email.addEventListener('keydown', keyHandler);
+    // email.addEventListener('keyup', keyHandler);
+    // email.addEventListener('keypress', keyHandler);
+
+    // email 欄位有input值的時候, 觸發keyHandler(確認是否有被使用的函式)
+    email.addEventListener('input',keyHandler);
+
+     function checkForm(){
+     // TODO: 欄位檢查
+
+        const fd = new FormData(document.form1);
+        
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(fd).toString(),
+        }).then(r=>r.json()).then(obj=>{
+            console.log(JSON.stringify(obj.null,4));
+            if(obj.success){
+                alert('註冊成功')
+                // location.href = '/login';
+            }else{
+                alert('註冊失敗\n' + (obj.error || ''))
+
+            }
+        });
+    }
+
+
+</script>
+<%- include('parts/html-foot.ejs') %> 

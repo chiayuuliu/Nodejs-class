@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload multi img</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+   
+</head>
+<style>
+    .container{
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="container">
+        <form name="fake_form" onsubmit="return false">
+            <div id="imgs" ></div>
+           
+            <button type="button" class="btn btn-success" onclick="photo.click()">上傳照片</button>
+    
+            <div class="mb-3">
+                <label for="my_img" class="form-label">image</label>
+                <input type="text" class="form-control" id="my_img" name="my_img">
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    
+    
+        <form name="form1" style="display: none;">
+            <input type="file" id="photo" name="photo" multiple>
+        </form>
+    </div>
+<script>
+     const photo = document.querySelector('#photo');
+     const imgs = document.querySelector('#imgs');
+     const imgData = [];
+
+     const renderImages = ()=>{
+        imgs.innerHTML = '';
+
+        imgData.forEach(el=>{
+            // 設定i 是一個<img>物件
+            const i = new Image();
+            // 設定屬性
+            i.width = 300;
+            i.src = '/img/' + el;
+            // 加入imgs
+            imgs.append(i);
+            //console.log('i:', i)
+        });
+
+    }
+
+
+     photo.addEventListener('change', async event=>{
+        const fd = new FormData(document.form1); 
+        console.log('1',fd)
+        const res = await fetch('/try-upload3', {
+            method: 'POST',
+            body: fd
+        });
+        console.log('2',res)
+        const ar =  await res.json();
+
+        ar.forEach(element => {
+            imgData.push(element.filename);
+            console.log('el:',element)            
+        });
+        console.log('ar', ar)
+
+        renderImages();
+        document.fake_form.my_img.value = JSON.stringify(imgData);
+    });
+
+    //甚麼時候給<img>標籤?
+    const allImgs = document.querySelectorAll('#imgs img')
+    console.log(allImgs)
+
+</script>
+
+    
+</body>
+</html>

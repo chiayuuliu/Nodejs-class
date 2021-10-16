@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doris的網站</title>
+    <link rel="stylesheet" href="//localhost:3001/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">登入(JWT)</h5>
+                  <form name="form1" onsubmit="checkForm(); return false;">
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">email(帳號名)</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密碼</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">登入</button>
+                </form>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+<script src="//localhost:3001/jquery/jquery.min.js"></script>
+<script src="//localhost:3001/bootstrap/js/bootstrap.min.js"></script> 
+<script>
+
+const email = document.querySelector('#email');
+
+function checkForm(){
+
+    // TODO: 欄位檢查
+
+
+    const fd = new FormData(document.form1);
+
+    // 對應到login.js的login-jwt路由
+    fetch('/login-jwt', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(fd).toString(),
+    }).then(r=>r.json()).then(obj=>{
+        console.log(JSON.stringify(obj, null, 4));
+
+        if(obj.success){
+            // 把token存到localStorage
+            localStorage.setItem('token', obj.token); 
+            // obj.member是一個obj,要先轉換成JSON
+            localStorage.setItem('member', JSON.stringify(obj.member)); // 儲存到 localStorage
+            alert('登入成功');
+        } else {
+            alert('登入失敗\n' + (obj.error || ''));
+        }
+    });
+
+
+}
+
+
+</script>
+</body>
+</html> 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hash</title>
+</head>
+<style>
+    .box{
+        height: 600px;
+        width: 300px;
+        background-color: antiquewhite;
+        border: 1px solid black;
+    }
+</style>
+<body>
+    <div id="info">
+        <a href="#b2">b2</a> <a href="#b3">b3</a> 
+    </div>
+    <div class="box" id="b1" >1</div>
+    <div class="box" id="b2" style="background-color: burlywood;" >2</div>
+    <div class="box" id="b3" style="background-color: rgb(86, 214, 150);">3</div>
+
+<script>
+   const whenHashChanged = ()=>{
+        console.log(location.hash);
+    };
+
+    window.addEventListener('hashchange', whenHashChanged);
+    whenHashChanged(); //直接呼叫目前的hash
+
+</script>
+</body>
+</html>

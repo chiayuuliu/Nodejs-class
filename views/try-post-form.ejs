@@ -1,0 +1,32 @@
+<%- include('parts/html-head.ejs') %>
+<%- include('parts/navbar.ejs') %> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="text" class="form-control" id="email" name="email">
+                    <!-- 輸出email,用type of 來判斷變數是否有被定義 -->
+                    <% if(typeof email !=='undefined'){ %>
+                        <div class="form-text"><%= email %></div>
+                    <% } %>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    <!-- 所有傳到template的變數都會掛在 預設物件locals裡面 -->
+                    <% if(locals.password){ %>
+                        <div class="form-text"><%= password %></div>
+                    <% } %>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/script.ejs') %> 
+<%- include('parts/html-foot.ejs') %> 

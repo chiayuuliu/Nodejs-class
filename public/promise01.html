@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+<body>
+
+    <script>
+        // promise處理非同步狀態(ajax,)
+        // 要給一個callback func 被呼叫的,會給兩個func:resolve(表示成功解決)/reject(出現狀況),  
+        new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                // 正常處理結束就會呼叫resolve
+                // "abc"會丟給then裡的 r
+                resolve('abc');//要丟多個值要用[] or {}
+                //rej就會直接跳到後面的catch err
+                //reject('my error') 
+            },1000)
+        }).then(r=>{
+            // throw new Error('your error message')//放這裡只會看到錯誤訊息
+            console.log('2', r)
+            throw new Error('your error message') //丟錯誤出來,放這裡可以看到結果跟錯誤訊息,catch 還是可以抓到錯誤
+        }).catch(err=>{
+            console.log('error:',err)
+        })
+
+        console.log('1',new Date())
+
+    </script>
+</body>
+</html>

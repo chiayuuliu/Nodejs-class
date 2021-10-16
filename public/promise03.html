@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise-func</title>
+</head>
+<body>
+
+    <script>
+        function myPromise(p){
+            return new Promise((resolve, reject)=>{
+                const rnd = 300 + Math.floor(Math.random()*1000);
+                setTimeout(()=>{
+                    resolve({p, rnd});
+                },rnd)
+            })
+        }
+        //處理非同步狀態(ajax,)
+        myPromise('Bill')
+        .then(r=>{
+            console.log(r)
+            return myPromise('Peter')
+        })
+        .then(r=>{
+            console.log(r)
+            return myPromise('John')
+        })
+        .then(r=>{
+            console.log(r)
+            return myPromise('Doris')
+        })
+        .then(r=>{
+            console.log(r)
+        })
+    </script>
+</body>
+</html>

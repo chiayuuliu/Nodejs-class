@@ -1,0 +1,59 @@
+<%- include('parts/html-head.ejs') %>
+<%- include('parts/navbar.ejs') %> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">登入</h5>
+                  <form name="form1" onsubmit="checkForm(); return false;">
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">email(帳號名)</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密碼</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">登入</button>
+                </form>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/script.ejs') %> 
+<script>
+
+    const email = document.querySelector('#email');
+
+     function checkForm(){
+     // TODO: 欄位檢查
+
+        const fd = new FormData(document.form1);
+        
+        // 送給自己=url 是 /login, 會傳送到routes 裡面的/login路由, 去判斷資料庫裡的帳號資料是否正確
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(fd).toString(),
+        }).then(r=>r.json()).then(obj=>{
+            console.log(JSON.stringify(obj, null, 4));
+            if(obj.success){
+                alert('登入成功');
+                location.href ='/';
+            } else {
+                alert('登入失敗\n' + (obj.error || ''));
+            }
+        });
+    }
+
+
+</script>
+<%- include('parts/html-foot.ejs') %> 

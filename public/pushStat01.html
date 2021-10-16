@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>push State</title>
+</head>
+<style>
+    
+</style>
+<body>
+    <div id="info">
+        <a href="javascript: pushS('/b1')"> b1 </a>
+        <a href="javascript: pushS('/b2')"> b2 </a>
+        <a href="javascript: pushS('/b3')"> b3 </a>
+    </div>
+    
+<script>
+    // pushState() 取用三個參數：一個 state 物件、title（目前忽略）與 URL（可選用）
+
+    const pushS = (url)=>{
+        history.pushState({t: Date.now(),url}, '',url);
+    };
+
+    window.addEventListener('popstate',event =>{
+        console.log(event.state);
+    });
+
+</script>
+</body>
+</html>

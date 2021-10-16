@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async +await</title>
+</head>
+<body>
+
+<script>
+    function myPromise(p){
+        return new Promise((resolve, reject)=>{
+            const rnd = 300 + Math.floor(Math.random()*1000);
+            setTimeout(()=>{
+                resolve({p, rnd});
+            },rnd)
+        })
+    }
+    //非同步操作,要依照順序執行,如果非同步,有可能順序不如預期
+    // async +await 讓函示看起來同步,但整個操作是非同步
+    //async 宣告的函式裡面才可以用await 要搭配使用,才可以在函式裡看起來是同步
+    async function func(){
+        // myPromise('bill')結束的結果回傳給r1的變數
+        const r1 = await myPromise('bill');
+        console.log(r1);
+        const r2 = await myPromise('peter');
+        console.log(r2);
+        const r3 = await myPromise('david');
+        console.log(r3);
+        const r4 = await myPromise('aaron');
+        console.log(r4);
+    }
+
+    func();
+    
+    console.log('end');//會先跑出來
+    //console.log(r1) //會錯誤
+
+</script>
+</body>
+</html>

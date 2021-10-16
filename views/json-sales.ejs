@@ -1,0 +1,30 @@
+<%- include('parts/html-head.ejs') %>
+<%- include('parts/navbar.ejs') %> 
+
+<div class="container">
+    <div class="row">
+        <table class="table table-stripe table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">編號</th>
+                <th scope="col">name</th>
+                <th scope="col">age</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- sales 是陣列sales.json), i會拿到key(物件格式) -->
+            <% for(let i of sales){ %> 
+              <tr>
+                <td><%= i.id %></td>
+                <td><%= i.name %></td>
+                <td><%= i.age %></td>
+              </tr>
+              <% } %> 
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+<%- include('parts/script.ejs') %> 
+<%- include('parts/html-foot.ejs') %> 
